@@ -7,7 +7,7 @@ void table(void) {
 
     for (i = 0; i <= 127; i++) {
         if (i >= 0 && i <= 31) 
-            printf(" |%d - up|", i);
+            printf(" |%3d - up|", i);
         else
             printf(" |%3d -  %c|", i, i);
         if (i % 6 == 0)

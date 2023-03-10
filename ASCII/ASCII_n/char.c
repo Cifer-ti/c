@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <char.h>
+#include "char.h"
 
 void ch(void) {
     int value;
-    char ch;
 
     printf("Enter value to get ASCII character: ");
     scanf("%d", &value);
@@ -12,6 +11,4 @@ void ch(void) {
         printf("characters with value of 0 - 32 are unprintable");
     else
     printf("character of %d - %c\n", value, value);
-
-    return 0;
 }

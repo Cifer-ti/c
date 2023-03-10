@@ -1,16 +1,37 @@
-what do you
+#include <stdio.h>
+#include "value.h"
+#include "char.h"
+#include "table.h"
 
-switch (cmd) {
-    case: 1
-        call table;
-    case 2: 
-     call value;
-    case 3: 
-        call char;
-    case 0:
-        exit:
-    case 4:
-     call range;
-    default:
-     command not found;
+int main(void) {
+
+    int cmd;
+
+    printf("comands:\n 1- print the full ASCII table\
+            \n2- print the ASCII value of a character\
+            \n3- print the character of an ASCII value\
+            \n0- exit\n");
+
+    for (; ;) {
+        printf("\nEnter command: ");
+        scanf("%d", &cmd);
+
+        switch (cmd) {
+            case 0: 
+                return 0;
+                break;
+            case 1:
+                table();
+                break;
+            case 2:
+                value();
+                break;
+            case 3:
+                ch();
+                break;
+            default:
+            printf("command not found\n");
+            break;
+        }
+    }
 }
