@@ -1,0 +1,1 @@
+run the ASCII table program as command line arguments
