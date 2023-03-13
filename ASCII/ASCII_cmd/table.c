@@ -1,3 +1,4 @@
+//print the ASCII table using a command line program
 #include <stdio.h>
 #include <string.h>
 

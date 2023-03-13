@@ -1,1 +1,1 @@
-This repo contains some of my personal c projects
+This repo contains some of my c projects
