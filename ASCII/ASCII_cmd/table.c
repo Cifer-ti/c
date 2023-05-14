@@ -18,6 +18,6 @@ int main(int argc, char *argv[]) {
         printf("\n");
         return 0;
     }
-    else printf("%s: argument not found", argv[1]);
+    else printf("Illegal %s: argument not found", argv[1]);
     return -1;
 }
