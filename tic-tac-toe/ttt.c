@@ -3,16 +3,18 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-bool bord_status[9] = {true};
+bool bord_status[9] = {false};
+bool fin[9] = {0};
 char square[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-int checkwin(void);
+bool checkwin(void);
 int checkchoice(int Choice);
 void board(void);
 
 int main(void)
 {
 	int player = 1, i, choice, ash;
+	bool gol = false;
 
 	char mark;
 
@@ -24,6 +26,15 @@ int main(void)
 		printf("player %d enter a square f number: ", player);
 		scanf("%d", &choice);
 
+		printf("bo: ");
+		for (int i = 0; i < 9; i++)
+			printf("%d", bord_status[i]);
+
+		printf("\n"); 
+		printf("q: ");
+		for (int i = 0; i < 9; i++)
+			printf("%c", square[i]);
+
 		if (choice >= 1 || choice <= 9) {
 
 			mark = (player == 1) ? 'X' : 'O';
@@ -31,8 +42,14 @@ int main(void)
 			ash = checkchoice(choice);
 
 			if ( ash > 0) {
-				printf("fine play\n");
+				printf("\nfine play\n");
 				square[choice - 1] = mark;
+				gol = checkwin();
+				
+				if (gol) {
+					printf("Player %d win", player);
+					return 0;
+				}
 				player++;
 			}
 			else
@@ -48,6 +65,7 @@ int checkchoice(int Choice)
 {
 	if (bord_status[Choice])
 		return -1;
+
 	bord_status[Choice] = true;
 	return 1;
 }
@@ -71,9 +89,23 @@ void board(void)
 	}
 }
 
+bool checkwin(void)
+{
+	bool won = false;
 
+	const bool fi[9] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+ 
+	for (int i = 0; i < 9; i++) {
+		fin[i] = (bord_status[i] & fi[i]);
+		printf("%d", fin[i]);
+}
+	printf("\n");
+	
+	for (int i = 0; i < 9; i++) {
+		if (fin[i] != fi[i])
+			return won;
+	}
 
-
-
-
-
+	won = true;
+	return won;
+}
