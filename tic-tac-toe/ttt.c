@@ -3,18 +3,19 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-bool bord_status[9] = {false};
+int bord_status[9] = {0};
 bool fin[9] = {0};
 char square[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+int comp = 0;
 
-bool checkwin(void);
+int checkwin(void);
 int checkchoice(int Choice);
 void board(void);
 
 int main(void)
 {
 	int player = 1, i, choice, ash;
-	bool gol = false;
+	int gol = 0;
 
 	char mark;
 
@@ -26,15 +27,7 @@ int main(void)
 		printf("player %d enter a square f number: ", player);
 		scanf("%d", &choice);
 
-		printf("bo: ");
-		for (int i = 0; i < 9; i++)
-			printf("%d", bord_status[i]);
-
-		printf("\n"); 
-		printf("q: ");
-		for (int i = 0; i < 9; i++)
-			printf("%c", square[i]);
-
+		
 		if (choice >= 1 || choice <= 9) {
 
 			mark = (player == 1) ? 'X' : 'O';
@@ -46,7 +39,7 @@ int main(void)
 				square[choice - 1] = mark;
 				gol = checkwin();
 				
-				if (gol) {
+				if (gol > 0) {
 					printf("Player %d win", player);
 					return 0;
 				}
@@ -57,16 +50,28 @@ int main(void)
 		}
 		else
 			printf("choice has to be a number bewtween 1-9\n try again\n");
+		
+		/*
+		printf("bo: ");
+		for (int i = 0; i < 9; i++)
+			printf("%d", bord_status[i]);
+
+		printf("\n"); 
+		printf("q: ");
+		for (int i = 0; i < 9; i++)
+			printf("%c", square[i]);
+		printf("\n");
+		*/
 			
 	} while (1);
 }
 
 int checkchoice(int Choice)
 {
-	if (bord_status[Choice])
+	if (bord_status[Choice - 1])
 		return -1;
 
-	bord_status[Choice] = true;
+	bord_status[Choice - 1] = 1;
 	return 1;
 }
 
@@ -89,23 +94,37 @@ void board(void)
 	}
 }
 
-bool checkwin(void)
+int checkwin()
 {
-	bool won = false;
+    if (square[0] == square[1] && square[1] == square[2])
+        return 1;
+        
+    else if (square[3] == square[4] && square[4] == square[5])
+        return 1;
+        
+    else if (square[6] == square[7] && square[7] == square[8])
+        return 1;
+        
+    else if (square[0] == square[3] && square[3] == square[6])
+        return 1;
+        
+    else if (square[1] == square[4] && square[4] == square[7])
+        return 1;
+        
+    else if (square[2] == square[5] && square[5] == square[8])
+        return 1;
+        
+    else if (square[0] == square[4] && square[4] == square[8])
+        return 1;
+        
+    else if (square[2] == square[4] && square[4] == square[6])
+        return 1;
+        
+    else if (square[0] != '1' && square[1] != '2' && square[2] != '3' &&
+        square[3] != '4' && square[4] != '5' && square[5] != '6' && square[6] 
+        != '7' && square[7] != '8' && square[8] != '9')
 
-	const bool fi[9] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
- 
-	for (int i = 0; i < 9; i++) {
-		fin[i] = (bord_status[i] & fi[i]);
-		printf("%d", fin[i]);
-}
-	printf("\n");
-	
-	for (int i = 0; i < 9; i++) {
-		if (fin[i] != fi[i])
-			return won;
-	}
-
-	won = true;
-	return won;
+        return 0;
+    else
+        return  - 1;
 }
