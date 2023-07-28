@@ -4,14 +4,14 @@
 #include <ctype.h>
 
 /*defintion of extenal variables*/
-int bord_status[9] = {0};
+int board_status[9] = {0};
 char square[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 /*function prototypes*/
-int checkwin(void);
-int checkchoice(int Choice);
-void board(void);
 void error_prompt(void);
+void board(void);
+int checkchoice(int Choice);
+int checkwin(void);
 
 int main(void)
 {
@@ -24,6 +24,7 @@ int main(void)
 		player = (player % 2) ? 1 : 2;
 
 		printf("player %d enter the number of a square: ", player);
+		/*check if choice is a number*/
 		if (scanf("%d", &choice) != 1) {
 			getchar();
 			choice = -1;
@@ -61,21 +62,17 @@ int main(void)
 	} while (1);
 }
 
-int checkchoice(int Choice)
-{
-	if (bord_status[Choice - 1])
-		return -1;
-
-	bord_status[Choice - 1] = 1;
-	return 1;
-}
-
-
+/**
+ * erro_prompt: Prompts an error message
+ */
 void error_prompt(void)
 {
 	printf("\nchoice has to be a number between 1-9\ntry again\n\n");
 }
 
+/**
+ * board: prints the current state of the game board
+ */
 void board(void)
 {
 	int i;
@@ -89,6 +86,30 @@ void board(void)
 	printf("\n");
 }
 
+/**
+ * checkchoice: checks if the number the player entered,
+ * 		was already entered (checks if the move is legal).
+ * 
+ * returns an integer value of 1 if the move is legal else,
+ * -1 is returned.
+ */
+int checkchoice(int Choice)
+{
+	if (board_status[Choice - 1])
+		return -1;
+
+	board_status[Choice - 1] = 1;
+	return 1;
+}
+
+/**
+ * checkwin: checks the board to see if the game
+ * 	     is a win a draw or should continue.
+ *
+ * return - 1 if a winning combination is satified,
+ * 	    0 if all squares are occupied but no win (a draw)
+ *          -1 if non of the above is satisfied
+ */
 int checkwin()
 {
     if (square[0] == square[1] && square[1] == square[2])
