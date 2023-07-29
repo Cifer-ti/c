@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <ctype.h>
 
@@ -20,6 +19,7 @@ int main(void)
 	char mark;
 
 	do {
+		system("clear");
 		board();
 		player = (player % 2) ? 1 : 2;
 
