@@ -1,0 +1,16 @@
+How it's to look like
+
+- creadte a new condidate
+- check if a candidate exist
+- check if a candidate is eligible
+
+functions:
+
+under admin panel
+- create
+- check
+- delete candidate
+- check candidate number of votes
+
+normal panel
+vote
