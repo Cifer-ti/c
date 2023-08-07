@@ -8,9 +8,9 @@
 typedef struct election_type *election;
 
 PUBLIC create_election(void);
-PUBLIC void make_candidate(electon elect);
-PUBLIC void delete_candidate(election elect);
-PUBLIC void ban_candidate(election elect);
-PUBLIC void vote(election elect);
+PUBLIC void make_candidate(election el);
+PUBLIC void delete_candidate(election el);
+PUBLIC void ban_candidate(election el);
+PUBLIC void vote(election el);
 
 #endif

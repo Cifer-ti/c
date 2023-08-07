@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -9,6 +10,7 @@
 struct candidate {
 	char candidate_name[NAME_LEN];
 	char candidate_id[ID_LEN];
+	int candidate_number;
 	int num_voates;
 	bool banned;
 	struct candidate *next;
@@ -73,4 +75,38 @@ PUBLIC void make_candidate(election el)
 
 	new_node->next = el->top;
 	el->top = new_node;
+}
+
+PUBLIC void delete_candidate(election el)
+{
+	 struct candidate *cur, *prev;
+	 int candidate_number;
+
+	 printf("Enter candidate number: ");
+	 scanf("%d", &candidate_number);
+
+	 for(cur = el->top, prev = NULL;
+	 	cur != NULL, candidate_number != cur->candidate_number;
+		prev = cur, cur = cur->next)
+			;
+	
+	if(!cur) {
+		printf("\ncandidate number %d, not found\n", candidate_number);
+		return;
+	}
+
+	printf("\nWARNING!!!: Deleting this candidate\n")
+	/* function to print candidate profile here*/
+
+	printf("Continue ? (Y/N)");
+
+	
+	if (toupper((ch = getchar())) == 'Y') {
+		prev->next = cur->next;
+		free(cur);
+	}
+
+	else
+		printf("Operation Aborted\n");
+		
 }
