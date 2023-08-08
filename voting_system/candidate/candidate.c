@@ -43,15 +43,11 @@ PRIVATE int read_word(char *word, int len)
 
 PRIVATE struct candidate *search(election el,
 					struct candidate *cur_node,
-					struct candidate *prev_node)
+					struct candidate *prev_node,
+					int candidate_num)
 {
-	int candidate_number;
-
-	printf("Enter candidate registration number: ");
-	scanf("%d", &candidate_number);
-
 	for(cur_node = el->top, prev_node = NULL;
-	 	cur != NULL, candidate_number != cur_node->candidate_number;
+	 	cur_node != NULL, candidate_num != cur_node->candidate_number;
 		prev_node = cur, cur_node = cur->next)
 			;
 
@@ -186,6 +182,29 @@ PUBLIC void ban_candidate(election el)
 
 PUBLIC  void vote(election el)
 {
-	struct candidate *p;
+	struct candidate *p, *cur, *prev;
+	int choice, ch;
 
+	printf("\nRegistration number\t|\tCandidate name\n");
+
+	for (p = el->top; p != NULL, p = p->next) {
+		if (p->banned)
+			printf("\n%d.\t|\t%s\n", p->candidate_number, p->candidate_name);
+	}
+
+	printf("Enter candidate number to regiser your vote: ");
+	scanf("%d", &choice);
+
+	if (!(search(el, cur, prev, choice)))
+		return;
+
+	printf("\nRegistering vote for %s\n", cur->candidate_name);
+	printf("Register ?(Y/N) ");
+
+	if((toupper(ch = getchar())) 'Y')
+		cur->num_voates++;
+
+	else
+		printf("Vote not registered\n");
+		
 }
