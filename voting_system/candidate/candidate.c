@@ -79,7 +79,6 @@ PUBLIC void print_profile(election el, int candidate_num)
 PUBLIC create_election(void)
 {
 	election el = malloc(sizeof(struct election_type));
-
 	if (el == NULL)
 		terminate("Error in create: Election could not be started");
 
@@ -107,7 +106,6 @@ PUBLIC void make_candidate(election el)
 
 	new_node->num_voates = 0;
 	new_node->banned = false;
-
 	new_node->next = el->top;
 	el->top = new_node;
 }
