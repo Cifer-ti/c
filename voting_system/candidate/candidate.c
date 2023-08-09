@@ -79,6 +79,7 @@ PUBLIC void print_profile(election el, int candidate_num)
 PUBLIC create_election(void)
 {
 	election el = malloc(sizeof(struct election_type));
+	
 	if (el == NULL)
 		terminate("Error in create: Election could not be started");
 
