@@ -57,11 +57,11 @@ PRIVATE struct candidate *search(election el,
 	return cur_node;
 }
 
-PUBLIC void print_profile(election el)
+PUBLIC void print_profile(election el, int candidate_num)
 {
 	struct candidate *cur, *prev;
 
-	if(!(search(el, cur, prev)))
+	if(!(search(el, cur, prev, candidate_num)))
 		return;
 	
 	printf("\n\
@@ -115,23 +115,17 @@ PUBLIC void make_candidate(election el)
 PUBLIC void delete_candidate(election el)
 {
 	 struct candidate *cur, *prev;
-	 int candidate_number;
+	 int candidate_number, ch;
 
 	 printf("Enter candidate number: ");
 	 scanf("%d", &candidate_number);
 
-	 for(cur = el->top, prev = NULL;
-	 	cur != NULL, candidate_number != cur->candidate_number;
-		prev = cur, cur = cur->next)
-			;
-	
-	if(!cur) {
-		printf("\ncandidate number %d, not found\n", candidate_number);
-		return;
-	}
+	 if(!(search(el, cur, prev, candidate_number)))
+	 	return
 
-	printf("\nWARNING!!!: Deleting this candidate\n")
-	/* function to print candidate profile here*/
+	printf("\nWARNING!!!: Deleting this candidate\n");
+
+	print_profile(el, candidate_number);
 
 	printf("Continue ? (Y/N)");
 
@@ -148,42 +142,32 @@ PUBLIC void delete_candidate(election el)
 
 PUBLIC void ban_candidate(election el)
 {
-	struct candidate *p;
-	int candidate_number;
-	char ch;
+	struct candidate *p, *prev;
+	int candidate_number, ch;
 
 	printf("Enter candidate registration number: ");
 	scanf("%d", &candidate_number);
 
-	for(p = el->top;
-		p != NULL, p->candidate_number != candidate_number;
-		p = p->next)
-			;
-
-	if(!p) {
-		printf("Candidate with registration number %d, not found\n", candidate_number);
+	if(!(search(el, p, prev, candidate_number)));
 		return;
-	}
 
-	/*print candidate profile function comes here*/
+	print_profile(el, candidate_number);
 
-	printf("WARNINg!!!: Baning this candidate"
-			"if candidate is baned three times then can never stand for elections");
-	
 	printf("Contitnue ? (Y/N): ");
+	
 	if((toupper(ch = getchar())) != 'Y') {
 		printf("Operation Aborted\n");
 		return;
 	}
 
 	p->banned = true;
-	printf("Candidate banned succesfully\n");
+	printf("\nCandidate banned succesfully\n");
 }
 
 PUBLIC  void vote(election el)
 {
 	struct candidate *p, *cur, *prev;
-	int choice, ch;
+	int candidate_number, ch;
 
 	printf("\nRegistration number\t|\tCandidate name\n");
 
@@ -193,9 +177,9 @@ PUBLIC  void vote(election el)
 	}
 
 	printf("Enter candidate number to regiser your vote: ");
-	scanf("%d", &choice);
+	scanf("%d", &candidate_number);
 
-	if (!(search(el, cur, prev, choice)))
+	if (!(search(el, cur, prev, candidate_number)))
 		return;
 
 	printf("\nRegistering vote for %s\n", cur->candidate_name);
