@@ -29,7 +29,8 @@ PRIVATE void terminate(const char *message)
 	exit(EXIT_FAILURE);
 }
 
-PRIVATE int read_word(char *word, int len)
+
+PRIVATE int read_word(char word[], int len)
 {
 	int pos = 0;
 	char ch;
@@ -48,11 +49,11 @@ PRIVATE struct candidate *search(election el,
 {
 	for(cur_node = el->top, prev_node = NULL;
 	 	cur_node != NULL, candidate_num != cur_node->candidate_number;
-		prev_node = cur, cur_node = cur->next)
+		prev_node = cur_node, cur_node = cur_node->next)
 			;
 
 	if(!cur_node)
-		printf("Candidate with registration number %d, not found\n", candidate_number);
+		printf("Candidate with registration number %d, not found\n", candidate_num);
 	
 	return cur_node;
 }
@@ -61,14 +62,15 @@ PUBLIC void print_profile(election el, int candidate_num)
 {
 	struct candidate *cur, *prev;
 
-	if(!(search(el, cur, prev, candidate_num)))
+	if(!(cur = (search(el, cur, prev, candidate_num))))
 		return;
 	
-	printf("\n\
-			Canddiate name: %s\n \
-			Candidate ID: %s\n\
-			Candidate registration number: %d\n\
-			number votes: %d\n");
+	printf("\n"
+			"Canddiate name: %s\n"
+			"Candidate ID: %s\n"
+			"Candidate registration number: %d\n"
+			"number votes: %d\n", cur->candidate_name,
+			cur->candidate_id, cur->candidate_number, cur->num_voates);
 
 	if (!cur->banned)
 		printf("\nStatus: Banned\n");
@@ -76,12 +78,12 @@ PUBLIC void print_profile(election el, int candidate_num)
 		printf("\nStatus: Active\n");
 }
 
-PUBLIC create_election(void)
+PUBLIC election create_election(void)
 {
 	election el = malloc(sizeof(struct election_type));
-	
+
 	if (el == NULL)
-		terminate("Error in create: Election could not be started");
+		terminate("Error in creat#endife: Election could not be started");
 
 	el->top = NULL;
 
@@ -91,9 +93,11 @@ PUBLIC create_election(void)
 	return el;
 }
 
+
 PUBLIC void make_candidate(election el)
 {
 	struct candidate *new_node = malloc(sizeof(struct candidate));
+	static int candidate_num_gen = 0;
 
 	if (new_node == NULL)
 		terminate("Error in create: Candidate could not be created");
@@ -105,12 +109,14 @@ PUBLIC void make_candidate(election el)
 	printf("Enter Candidate name: ");
 	read_word(new_node->candidate_name, NAME_LEN);
 
+	new_node->candidate_number = 0;
 	new_node->num_voates = 0;
 	new_node->banned = false;
 	new_node->next = el->top;
 	el->top = new_node;
 }
 
+/*
 PUBLIC void delete_candidate(election el)
 {
 	 struct candidate *cur, *prev;
@@ -191,3 +197,4 @@ PUBLIC  void vote(election el)
 		printf("Vote not registered\n");
 		
 }
+*/
