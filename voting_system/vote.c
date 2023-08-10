@@ -5,11 +5,28 @@
 int main(void)
 {
     election best;
+    int num;
+    char code;
 
     best = create_election();
 
-    make_candidate(best);
+    for (; ;) {
+        printf("Enter code: ");
+        scanf(" %c", &code);
 
-    print_profile(best, 0);
+        switch(code) {
+            case 'a':
+                make_candidate(best); break;
+            case 'b':
+                printf("Enter candidate number: ");
+                scanf("%d", &num);
+                print_profile(best, num);
+                break;
+            case 'q': return 0;
+
+            default: printf("what!\n");
+                break;
+        }
+    }
     return 0;
 }

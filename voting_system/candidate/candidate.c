@@ -35,7 +35,7 @@ PRIVATE int read_word(char word[], int len)
 	int pos = 0;
 	char ch;
 
-	while ((ch = getchar()) != '\n') {
+	while (((ch = getchar()) != '\n') && ch != EOF) {
 		if (pos < len)
 			word[pos++] = ch; 
 	}
@@ -72,7 +72,7 @@ PUBLIC void print_profile(election el, int candidate_num)
 			"number votes: %d\n", cur->candidate_name,
 			cur->candidate_id, cur->candidate_number, cur->num_voates);
 
-	if (!cur->banned)
+	if (cur->banned)
 		printf("\nStatus: Banned\n");
 	else
 		printf("\nStatus: Active\n");
@@ -108,8 +108,9 @@ PUBLIC void make_candidate(election el)
 
 	printf("Enter Candidate name: ");
 	read_word(new_node->candidate_name, NAME_LEN);
+	printf("done name");
 
-	new_node->candidate_number = 0;
+	new_node->candidate_number = ++candidate_num_gen;
 	new_node->num_voates = 0;
 	new_node->banned = false;
 	new_node->next = el->top;
