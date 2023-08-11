@@ -14,6 +14,9 @@ int main(void)
         printf("Enter code: ");
         scanf(" %c", &code);
 
+        while(getchar() != '\n')
+            ;
+
         switch(code) {
             case 'a':
                 make_candidate(best); break;
@@ -21,6 +24,13 @@ int main(void)
                 printf("Enter candidate number: ");
                 scanf("%d", &num);
                 print_profile(best, num);
+                break;
+            case 'd':
+                    ban_candidate(best);
+                    break;
+
+            case 'v': 
+                vote(best);
                 break;
             case 'q': return 0;
 

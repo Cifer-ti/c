@@ -48,7 +48,7 @@ PRIVATE struct candidate *search(election el,
 					int candidate_num)
 {
 	for(cur_node = el->top, prev_node = NULL;
-	 	cur_node != NULL, candidate_num != cur_node->candidate_number;
+	 	cur_node != NULL && candidate_num != cur_node->candidate_number;
 		prev_node = cur_node, cur_node = cur_node->next)
 			;
 
@@ -125,9 +125,10 @@ PUBLIC void delete_candidate(election el)
 
 	 printf("Enter candidate number: ");
 	 scanf("%d", &candidate_number);
+	 getchar();
 
-	 if(!(search(el, cur, prev, candidate_number)))
-	 	return
+	 if(!(search(el,  &cur, &prev, candidate_number)))
+	 	return;
 
 	printf("\nWARNING!!!: Deleting this candidate\n");
 
@@ -145,6 +146,8 @@ PUBLIC void delete_candidate(election el)
 		printf("Operation Aborted\n");
 		
 }
+*/
+
 
 PUBLIC void ban_candidate(election el)
 {
@@ -154,11 +157,12 @@ PUBLIC void ban_candidate(election el)
 	printf("Enter candidate registration number: ");
 	scanf("%d", &candidate_number);
 
-	if(!(search(el, p, prev, candidate_number)));
+	if(!(p = (search(el, p, prev, candidate_number))))
 		return;
 
 	print_profile(el, candidate_number);
 
+	getchar();
 	printf("Contitnue ? (Y/N): ");
 	
 	if((toupper(ch = getchar())) != 'Y') {
@@ -170,6 +174,7 @@ PUBLIC void ban_candidate(election el)
 	printf("\nCandidate banned succesfully\n");
 }
 
+
 PUBLIC  void vote(election el)
 {
 	struct candidate *p, *cur, *prev;
@@ -177,25 +182,27 @@ PUBLIC  void vote(election el)
 
 	printf("\nRegistration number\t|\tCandidate name\n");
 
-	for (p = el->top; p != NULL, p = p->next) {
-		if (p->banned)
+	for (p = el->top; p != NULL; p = p->next) {
+		if (!p->banned)
 			printf("\n%d.\t|\t%s\n", p->candidate_number, p->candidate_name);
 	}
 
 	printf("Enter candidate number to regiser your vote: ");
 	scanf("%d", &candidate_number);
 
-	if (!(search(el, cur, prev, candidate_number)))
+	if (!(cur = (search(el, cur, prev, candidate_number))))
 		return;
 
+	getchar();
 	printf("\nRegistering vote for %s\n", cur->candidate_name);
 	printf("Register ?(Y/N) ");
 
-	if((toupper(ch = getchar())) 'Y')
+	if((toupper(ch = getchar())) ==  'Y') {
 		cur->num_voates++;
+		printf("Vote registered for %s\n", cur->candidate_name);
+	}
 
 	else
 		printf("Vote not registered\n");
 		
 }
-*/
