@@ -25,10 +25,11 @@ int main(void)
                 scanf("%d", &num);
                 print_profile(best, num);
                 break;
-            case 'd':
+            case 'd': delete_candidate(best);
+                    break;   
+            case 'n':
                     ban_candidate(best);
                     break;
-
             case 'v': 
                 vote(best);
                 break;

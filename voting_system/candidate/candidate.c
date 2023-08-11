@@ -43,26 +43,27 @@ PRIVATE int read_word(char word[], int len)
 }
 
 PRIVATE struct candidate *search(election el,
-					struct candidate *cur_node,
-					struct candidate *prev_node,
+					struct candidate **cur_node,
+					struct candidate **prev_node,
 					int candidate_num)
 {
-	for(cur_node = el->top, prev_node = NULL;
-	 	cur_node != NULL && candidate_num != cur_node->candidate_number;
-		prev_node = cur_node, cur_node = cur_node->next)
+	for(*cur_node = el->top, *prev_node = NULL;
+	 	*cur_node != NULL && candidate_num != (*cur_node)->candidate_number;
+		*prev_node = *cur_node, *cur_node = (*cur_node)->next)
 			;
 
-	if(!cur_node)
+	if(!*cur_node) {
 		printf("Candidate with registration number %d, not found\n", candidate_num);
-	
-	return cur_node;
+		return NULL;
+	}
+
 }
 
 PUBLIC void print_profile(election el, int candidate_num)
 {
 	struct candidate *cur, *prev;
 
-	if(!(cur = (search(el, cur, prev, candidate_num))))
+	if(!(cur = (search(el, &cur, &prev, candidate_num))))
 		return;
 	
 	printf("\n"
@@ -102,13 +103,13 @@ PUBLIC void make_candidate(election el)
 	if (new_node == NULL)
 		terminate("Error in create: Candidate could not be created");
 	
+	printf("Enter Candidate name: ");
+	read_word(new_node->candidate_name, NAME_LEN);
+	
 	printf("Candidate needs an ID number\n"
 			"Enter candidate ID number: ");
 	read_word(new_node->candidate_id, ID_LEN);
 
-	printf("Enter Candidate name: ");
-	read_word(new_node->candidate_name, NAME_LEN);
-	printf("done name");
 
 	new_node->candidate_number = ++candidate_num_gen;
 	new_node->num_voates = 0;
@@ -117,7 +118,7 @@ PUBLIC void make_candidate(election el)
 	el->top = new_node;
 }
 
-/*
+
 PUBLIC void delete_candidate(election el)
 {
 	 struct candidate *cur, *prev;
@@ -140,13 +141,13 @@ PUBLIC void delete_candidate(election el)
 	if (toupper((ch = getchar())) == 'Y') {
 		prev->next = cur->next;
 		free(cur);
+		printf("Candidate deleted successfully\n");
 	}
 
 	else
 		printf("Operation Aborted\n");
 		
 }
-*/
 
 
 PUBLIC void ban_candidate(election el)
@@ -156,13 +157,13 @@ PUBLIC void ban_candidate(election el)
 
 	printf("Enter candidate registration number: ");
 	scanf("%d", &candidate_number);
+	getchar();
 
-	if(!(p = (search(el, p, prev, candidate_number))))
+	if(!(search(el, &p, &prev, candidate_number)))
 		return;
 
 	print_profile(el, candidate_number);
 
-	getchar();
 	printf("Contitnue ? (Y/N): ");
 	
 	if((toupper(ch = getchar())) != 'Y') {
@@ -189,11 +190,11 @@ PUBLIC  void vote(election el)
 
 	printf("Enter candidate number to regiser your vote: ");
 	scanf("%d", &candidate_number);
+	getchar();
 
-	if (!(cur = (search(el, cur, prev, candidate_number))))
+	if (!(search(el, &cur, &prev, candidate_number)))
 		return;
 
-	getchar();
 	printf("\nRegistering vote for %s\n", cur->candidate_name);
 	printf("Register ?(Y/N) ");
 
