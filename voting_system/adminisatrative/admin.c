@@ -67,7 +67,6 @@ PUBLIC void changeadminpasswd(void)
     while(1) {
         printf("Enter old password: ");
         read_word(old_passwd, PASSWD_LEN);
-
         if(strcmp(old_passwd, admin.passwd) == 0)
             break;
         else
