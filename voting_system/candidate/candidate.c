@@ -30,7 +30,7 @@ PRIVATE void terminate(const char *message)
 }
 
 
-PRIVATE int read_word(char word[], int len)
+PUBLIC int read_word(char word[], int len)
 {
 	int pos = 0;
 	char ch;

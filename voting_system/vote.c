@@ -1,6 +1,8 @@
 /* This file will contain the main function */
 #include <stdio.h>
+#include <stdbool.h>
 #include "candidate/candidate.h"
+#include "adminisatrative/admin.h"
 
 int main(void)
 {
@@ -9,6 +11,12 @@ int main(void)
     char code;
 
     best = create_election();
+
+    while(!checkadminlogin())
+        ;
+
+    changeadminname();
+    changeadminpasswd();
 
     for (; ;) {
         printf("Enter code: ");
