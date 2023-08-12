@@ -121,7 +121,8 @@ PUBLIC void make_candidate(election el)
 
 PUBLIC void delete_candidate(election el)
 {
-	 struct candidate *cur, *prev;
+	 struct candidate *cur;
+	 struct candidate *prev;
 	 int candidate_number, ch;
 
 	 printf("Enter candidate number: ");
