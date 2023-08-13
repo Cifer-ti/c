@@ -14,5 +14,7 @@ PUBLIC void ban_candidate(election el);
 PUBLIC void vote(election el);
 PUBLIC void print_profile(election el, int candidate_num);
 PUBLIC int read_word(char word[], int len);
+PUBLIC void save(election el);
+PUBLIC void laod(election el);
 
 #endif

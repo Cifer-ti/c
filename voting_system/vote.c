@@ -11,12 +11,12 @@ int main(void)
     char code;
 
     best = create_election();
-
+/*
     while(!checkadminlogin())
         ;
 
     changeadminname();
-    changeadminpasswd();
+    changeadminpasswd();*/
 
     for (; ;) {
         printf("Enter code: ");
@@ -40,6 +40,12 @@ int main(void)
                     break;
             case 'v': 
                 vote(best);
+                break;
+            case 's':
+                save(best);
+                break;
+            case 'l':
+                laod(best);
                 break;
             case 'q': return 0;
 

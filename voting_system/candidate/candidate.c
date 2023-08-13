@@ -7,6 +7,8 @@
 #define ID_LEN 7
 #define NAME_LEN 20
 
+int num_candidates = 0;
+
 struct candidate {
 	char candidate_name[NAME_LEN];
 	char candidate_id[ID_LEN];
@@ -57,6 +59,17 @@ PRIVATE struct candidate *search(election el,
 		return NULL;
 	}
 
+}
+
+PRIVATE int num_cand(election el)
+{
+	int i = 0;
+	struct candidate *p;
+
+	for (p = el->top; p != NULL; p = p->next)
+		i++;
+
+	return i;	
 }
 
 PUBLIC void print_profile(election el, int candidate_num)
@@ -207,4 +220,40 @@ PUBLIC  void vote(election el)
 	else
 		printf("Vote not registered\n");
 		
+}
+
+PUBLIC void save(election el)
+{
+	FILE *fp;
+	char filename[300];
+
+	printf("Enter name of file to save: ");
+	read_word(filename, 300);
+
+	num_candidates = num_cand(el);
+
+	if((fp = fopen(filename, "wb")) == NULL) {
+		fprintf(stderr, "Error: election data can't be written to %s file", filename);
+		return;
+	}
+
+	fwrite(el->top, sizeof(struct candidate), num_candidates, fp);
+	fclose(fp);		
+}
+
+PUBLIC void laod(election el)
+{
+	FILE *fp;
+	char filename[300];
+
+	printf("Enter name of election file to load it: ");
+	read_word(filename, 300);
+
+	if((fp = fopen(filename, "rb")) == NULL) {
+		fprintf(stderr, "Error: can't open file %s\n", filename);
+		return;
+	}
+
+	fread(el, sizeof(struct candidate), 300, fp);
+	fclose(fp);
 }
