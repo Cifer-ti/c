@@ -92,9 +92,9 @@ PUBLIC void print_profile(election el, int candidate_num)
 		printf("\nStatus: Active\n");
 }
 
-PUBLIC election create_election(void)
+PUBLIC election create_election(election el)
 {
-	election el = malloc(sizeof(struct election_type));
+	el = malloc(sizeof(struct election_type));
 
 	if (el == NULL)
 		terminate("Error in creat#endife: Election could not be started");

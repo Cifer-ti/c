@@ -7,7 +7,7 @@
 
 typedef struct election_type *election;
 
-PUBLIC election create_election(void);
+PUBLIC election create_election(election el);
 PUBLIC void make_candidate(election el);
 PUBLIC void delete_candidate(election el);
 PUBLIC void ban_candidate(election el);
