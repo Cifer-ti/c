@@ -4,6 +4,8 @@
 /*tells if a function is to be used out of file or not*/
 #define PUBLIC
 #define PRIVATE static
+#define complete 1
+#define uncomplere 0
 
 typedef struct election_type *election;
 

@@ -19,7 +19,9 @@ struct candidate {
 };
 
 struct election_type {
+	char election_name;
 	char election_id[ID_LEN];
+	int election_status; /*1 if complete 0 if uncomplete*/
 	struct candidate *top;
 };
 
@@ -104,6 +106,7 @@ PUBLIC election create_election(election el)
 	printf("You need an election ID to continue\n"
 			"Enter an election ID: ");
 	read_word(el->election_id, ID_LEN);
+	el->election_status = 0;
 	return el;
 }
 
