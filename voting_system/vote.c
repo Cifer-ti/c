@@ -5,12 +5,27 @@
 #include "candidate/candidate.h"
 #include "adminisatrative/admin.h"
 
+void home_page(void);
+
 int main(void)
 {
-    char code, el_name[300];
+    int code = 0;
 
-    printf("Enter election name: ");
-    read_word(el_name, 300);
+    switch(code) {
+        case 0:
+            mainhome_page();
+            break;
 
-    election el_name;
+            
+    }
+
+}
+
+void mainhome_page(void)
+{
+    printf("\n------WELCOME TO OUR HOMEPAGE--------\n");
+    printf("what do you want to do (choose among the options below):\n");
+    printf("0: Homepage\n"
+            "1: Login as administrator\n"
+            "2: show candidate profile\n");
 }

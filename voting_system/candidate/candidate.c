@@ -21,7 +21,7 @@ struct candidate {
 struct election_type {
 	char election_name;
 	char election_id[ID_LEN];
-	int election_status; /*1 if complete 0 if uncomplete*/
+	int election_status; /*1 if opened, 0 if closed*/
 	struct candidate *top;
 };
 
@@ -94,7 +94,7 @@ PUBLIC void print_profile(election el, int candidate_num)
 		printf("\nStatus: Active\n");
 }
 
-PUBLIC election create_election(election el)
+PUBLIC election create_election(void)
 {
 	el = malloc(sizeof(struct election_type));
 
@@ -103,10 +103,15 @@ PUBLIC election create_election(election el)
 
 	el->top = NULL;
 
+	printf("Enter a name for the election: ");
+	read_word(el->election_name, NAME_LEN);
+
 	printf("You need an election ID to continue\n"
 			"Enter an election ID: ");
 	read_word(el->election_id, ID_LEN);
-	el->election_status = 0;
+
+	el->election_status = opened;
+
 	return el;
 }
 

@@ -4,12 +4,12 @@
 /*tells if a function is to be used out of file or not*/
 #define PUBLIC
 #define PRIVATE static
-#define complete 1
-#define uncomplere 0
+#define opened 1
+#define closed 0
 
 typedef struct election_type *election;
 
-PUBLIC election create_election(election el);
+PUBLIC election create_election(void);
 PUBLIC void make_candidate(election el);
 PUBLIC void delete_candidate(election el);
 PUBLIC void ban_candidate(election el);
