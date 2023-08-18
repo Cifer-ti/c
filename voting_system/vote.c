@@ -8,23 +8,23 @@
 election elect_name;
 int admin_check = 0;
 
-int mainhome_page(void);
+char mainhome_page(void);
 void adminhome_page(void);
 
 int main(void)
 {
-    int code;
+    char code;
 
     for (; ;) {
         system("clear");
         
         code = mainhome_page();
         switch(code) {
-            case 0:
+            case 'h':
                 system("clear");
                 mainhome_page();
                 break;
-            case 1:
+            case 'a':
                 admin_check = 0;
                 if((admin_check = checkadminlogin()) == 1){
                     system("clear");
@@ -39,32 +39,32 @@ int main(void)
     return 0;
 }
 
-int mainhome_page(void)
+char mainhome_page(void)
 {
-    int code, candidate_number;
+    int candidate_number;
+    char code;
 
     printf("\n---------------WELCOME TO OUR HOMEPAGE---------------\n\n");
-    printf("0: Homepage\n"
-            "1: Admin hompage administrator\n"
-            "2: Register vote\n"
-            "3: show candidate profile\n");
+    printf("h: Homepage\n"
+            "a: Admin hompage\n"
+            "v: Register vote\n"
+            "p: show candidate profile\n");
     
     for(; ;) {
         printf("what do you want to do ?(choose among the operation code above): ");
-        scanf("%d", &code);
+        scanf("%c", &code);
 
         while(getchar() != '\n')
             ;
         
-        if (code == 1 || code == 0)
+        if (code == 'h' || code == 'a')
             return code;
         switch(code) {
             case 2:
                 system("clear");
                 vote(elect_name);
             case 3:
-                system("clear");        system("clear");
-
+                system("clear");
                 printf("candidate number: ");
                 scanf("%d", &candidate_number);
                 print_profile(elect_name, candidate_number);
