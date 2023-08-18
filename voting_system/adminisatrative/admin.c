@@ -27,12 +27,14 @@ PUBLIC int checkadminlogin(void)
     printf("Password: ");
     read_word(logpasswd, PASSWD_LEN);
 
-    if((strcmp(logpasswd, admin.passwd) != 0) && (strcmp(logname, admin.name) != 0)) {
-        printf("Wrong Name or Password\n");
-        return 0;
+    if((strcmp(logpasswd, admin.passwd) != 0)) {
+        if ((strcmp(logname, admin.name) != 0)) {
+            printf("Wrong Name or Password\n");
+            return 0;
+        }
     }
 
-    printf("logged in as admin\n");
+    printf("\nlogged in as admin\n");
     return 1;
     
 }

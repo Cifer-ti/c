@@ -19,7 +19,7 @@ struct candidate {
 };
 
 struct election_type {
-	char election_name;
+	char election_name[NAME_LEN];
 	char election_id[ID_LEN];
 	int election_status; /*1 if opened, 0 if closed*/
 	struct candidate *top;
@@ -96,7 +96,7 @@ PUBLIC void print_profile(election el, int candidate_num)
 
 PUBLIC election create_election(void)
 {
-	el = malloc(sizeof(struct election_type));
+	election el = malloc(sizeof(struct election_type));
 
 	if (el == NULL)
 		terminate("Error in creat#endife: Election could not be started");
