@@ -14,9 +14,10 @@ void adminhome_page(void);
 int main(void)
 {
     char code;
+    
+    system("clear");
 
     for (; ;) {
-        system("clear");
         
         code = mainhome_page();
         switch(code) {
@@ -30,6 +31,7 @@ int main(void)
                     system("clear");
                     adminhome_page();
                 }
+                system("sleep 2");
                 break;
             default:
                 printf("%c not a valid command\n", code);
