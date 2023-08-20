@@ -1,3 +1,4 @@
+/*in here are functions that manages admin login, change of name and password*/
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>

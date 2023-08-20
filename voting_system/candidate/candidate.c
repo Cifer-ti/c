@@ -1,3 +1,4 @@
+/*in here are functions that manage candidate and election operations*/
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
