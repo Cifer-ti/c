@@ -78,6 +78,13 @@ char mainhome_page(void)
                 printf("candidate number: ");
                 scanf("%d", &candidate_number);
                 print_profile(elect_name, candidate_number);
+            case 't':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
+                showelection_profile(elect_name);
+                break;
             default:
                 printf("%d not a valid operation code\n", code);
         }
