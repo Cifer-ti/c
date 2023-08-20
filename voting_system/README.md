@@ -1,0 +1,1 @@
+A simple voting system, that can manage an election
