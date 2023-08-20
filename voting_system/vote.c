@@ -14,10 +14,10 @@ void adminhome_page(void);
 int main(void)
 {
     char code;
-    
-    system("clear");
 
     for (; ;) {
+
+        system("clear");
         
         code = mainhome_page();
         switch(code) {

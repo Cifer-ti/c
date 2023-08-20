@@ -239,6 +239,11 @@ PUBLIC  void vote(election el)
 
 	if (!(search(el, &cur, &prev, candidate_number)))
 		return;
+	
+	if(cur->banned) {
+		printf("\nThis candidate has been banned\n");
+		return;
+	}
 
 	printf("\nRegistering vote for %s\n", cur->candidate_name);
 	printf("Register ?(Y/N) ");
