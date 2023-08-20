@@ -27,15 +27,13 @@ PUBLIC int checkadminlogin(void)
     printf("Password: ");
     read_word(logpasswd, PASSWD_LEN);
 
-    if((strcmp(logpasswd, admin.passwd) != 0)) {
-        if ((strcmp(logname, admin.name) != 0)) {
-            printf("Wrong Name or Password\n");
-            return 0;
+    if((strcmp(logpasswd, admin.passwd) == 0) && (strcmp(logname, admin.name) == 0)) {
+            printf("logged in as admin\n");
+            return 1;
         }
-    }
 
-    printf("\nlogged in as admin\n");
-    return 1;
+    printf("\nlog in failed: wrong name or password\n");
+    return 0;
     
 }
 
@@ -56,7 +54,8 @@ PUBLIC void changeadminname(void)
 
     printf("Enter new admin name: ");
     read_word(new_name, NAME_LEN);
-    strncpy(admin.name, new_name, NAME_LEN);
+    strncpy(admin.name, new_name, sizeof(admin.name) - 1);
+    admin.name[sizeof(admin.name) - 1] = '\0';
 
     printf("admin name updated successfully\n"); 
 }
@@ -84,7 +83,8 @@ PUBLIC void changeadminpasswd(void)
         read_word(conf_passwd, NAME_LEN);
 
         if(strcmp(conf_passwd, new_passwd) == 0) {
-            strncpy(admin.name, new_passwd, PASSWD_LEN);
+            strncpy(admin.passwd, new_passwd, sizeof(admin.passwd) - 1);
+            admin.passwd[sizeof(admin.passwd) - 1] = '\0';
             printf("Password updated succesfully\n");
             return; 
         }

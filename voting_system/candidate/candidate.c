@@ -43,6 +43,7 @@ PUBLIC int read_word(char word[], int len)
 		if (pos < len)
 			word[pos++] = ch; 
 	}
+	word[pos] = '\0';
 	return pos;
 }
 

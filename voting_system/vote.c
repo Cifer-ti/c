@@ -5,7 +5,7 @@
 #include "candidate/candidate.h"
 #include "adminisatrative/admin.h"
 
-election elect_name;
+election elect_name = NULL;
 int admin_check = 0;
 
 char mainhome_page(void);
@@ -32,7 +32,7 @@ int main(void)
                 }
                 break;
             default:
-                printf("%d not a valid command\n", code);
+                printf("%c not a valid command\n", code);
                 break;
         }
     }
