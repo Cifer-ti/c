@@ -77,6 +77,11 @@ PRIVATE int num_cand(election el)
 
 PUBLIC void print_profile(election el, int candidate_num)
 {
+
+	if(el->top == NULL) {
+		printf("\nThere is no candidate registered for tis election yet\n");
+		return;
+	}
 	struct candidate *cur, *prev;
 
 	if(!(cur = (search(el, &cur, &prev, candidate_num))))
@@ -143,6 +148,11 @@ PUBLIC void make_candidate(election el)
 
 PUBLIC void delete_candidate(election el)
 {
+	if(el->top == NULL) {
+		printf("\nThere is no candidate registered for tis election yet\n");
+		return;
+	}
+
 	 struct candidate *cur;
 	 struct candidate *prev;
 	 int candidate_number, ch;
@@ -175,6 +185,11 @@ PUBLIC void delete_candidate(election el)
 
 PUBLIC void ban_candidate(election el)
 {
+	if(el->top == NULL) {
+		printf("\nThere is no candidate registered for tis election yet\n");
+		return;
+	}
+
 	struct candidate *p, *prev;
 	int candidate_number, ch;
 
@@ -201,6 +216,11 @@ PUBLIC void ban_candidate(election el)
 
 PUBLIC  void vote(election el)
 {
+	if(el->top == NULL) {
+		printf("\nThere is no candidate registered for tis election yet\n");
+		return;
+	}
+	
 	struct candidate *p, *cur, *prev;
 	int candidate_number, ch;
 

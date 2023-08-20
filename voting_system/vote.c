@@ -60,10 +60,19 @@ char mainhome_page(void)
         if (code == 'h' || code == 'a')
             return code;
         switch(code) {
-            case 2:
+            case 'v':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
                 system("clear");
                 vote(elect_name);
-            case 3:
+                break;
+            case 'p':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
                 system("clear");
                 printf("candidate number: ");
                 scanf("%d", &candidate_number);
@@ -108,14 +117,26 @@ void adminhome_page(void)
                 make_candidate(elect_name);
                 break;
             case 'p':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
                 printf("Enter candidate number: ");
                 scanf("%d", &candidate_number);
                 print_profile(elect_name, candidate_number);
                 break;
             case 'd':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
                 delete_candidate(elect_name);
                 break;
             case 'b':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
                 ban_candidate(elect_name);
                 break;
             case 'h':
