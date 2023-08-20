@@ -48,7 +48,8 @@ char mainhome_page(void)
     printf("h: Homepage\n"
             "a: Admin hompage\n"
             "v: Register vote\n"
-            "p: show candidate profile\n");
+            "p: show candidate profile\n"
+            "t: show election profile\n");
     
     for(; ;) {
         printf("what do you want to do ?(choose among the operation code above): ");
@@ -96,6 +97,8 @@ void adminhome_page(void)
             "p: View candidate profile\n"
             "d: Delete candidate profile\n"
             "b: Ban a candidate\n"
+            "t: show election profile\n"
+            "o: close election\n"
             "h: Return to main homepage\n"
             "l: Load an election file\n"
             "s: Save current election file\n"
@@ -138,6 +141,20 @@ void adminhome_page(void)
                     break;
                 }
                 ban_candidate(elect_name);
+                break;
+            case 't':
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
+                showelection_profile(elect_name);
+                break;
+            case 'o': 
+                if(elect_name == NULL) {
+                    printf("\nThere's presently no ongoing election\n\n");
+                    break;
+                }
+                close_election(elect_name);
                 break;
             case 'h':
                 admin_check = 0;

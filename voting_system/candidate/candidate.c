@@ -4,14 +4,12 @@
 #include <stdbool.h>
 #include "candidate.h"
 
-#define ID_LEN 7
 #define NAME_LEN 20
 
 int num_candidates = 0;
 
 struct candidate {
 	char candidate_name[NAME_LEN];
-	char candidate_id[ID_LEN];
 	int candidate_number;
 	int num_voates;
 	bool banned;
@@ -20,8 +18,8 @@ struct candidate {
 
 struct election_type {
 	char election_name[NAME_LEN];
-	char election_id[ID_LEN];
 	int election_status; /*1 if opened, 0 if closed*/
+	int num_candiates;
 	struct candidate *top;
 };
 
@@ -89,10 +87,9 @@ PUBLIC void print_profile(election el, int candidate_num)
 	
 	printf("\n"
 			"Canddiate name: %s\n"
-			"Candidate ID: %s\n"
 			"Candidate registration number: %d\n"
-			"number votes: %d\n", cur->candidate_name,
-			cur->candidate_id, cur->candidate_number, cur->num_voates);
+			"number votes: %d\n", cur->candidate_name, 
+								cur->candidate_number, cur->num_voates);
 
 	if (cur->banned)
 		printf("\nStatus: Banned\n");
@@ -105,16 +102,12 @@ PUBLIC election create_election(void)
 	election el = malloc(sizeof(struct election_type));
 
 	if (el == NULL)
-		terminate("Error in creat#endife: Election could not be started");
+		terminate("Error in create: Election could not be started");
 
 	el->top = NULL;
 
 	printf("Enter a name for the election: ");
 	read_word(el->election_name, NAME_LEN);
-
-	printf("You need an election ID to continue\n"
-			"Enter an election ID: ");
-	read_word(el->election_id, ID_LEN);
 
 	el->election_status = opened;
 
@@ -129,14 +122,9 @@ PUBLIC void make_candidate(election el)
 
 	if (new_node == NULL)
 		terminate("Error in create: Candidate could not be created");
-	
+
 	printf("Enter Candidate name: ");
 	read_word(new_node->candidate_name, NAME_LEN);
-	
-	printf("Candidate needs an ID number\n"
-			"Enter candidate ID number: ");
-	read_word(new_node->candidate_id, ID_LEN);
-
 
 	new_node->candidate_number = ++candidate_num_gen;
 	new_node->num_voates = 0;
@@ -150,6 +138,11 @@ PUBLIC void delete_candidate(election el)
 {
 	if(el->top == NULL) {
 		printf("\nThere is no candidate registered for tis election yet\n");
+		return;
+	}
+
+	if(el->election_status == closed) {
+		printf("This election has already been closed\n");
 		return;
 	}
 
@@ -190,6 +183,11 @@ PUBLIC void ban_candidate(election el)
 		return;
 	}
 
+	if(el->election_status == closed) {
+		printf("This election has already been closed\n");
+		return;
+	}
+
 	struct candidate *p, *prev;
 	int candidate_number, ch;
 
@@ -217,7 +215,12 @@ PUBLIC void ban_candidate(election el)
 PUBLIC  void vote(election el)
 {
 	if(el->top == NULL) {
-		printf("\nThere is no candidate registered for tis election yet\n");
+		printf("\nThere is no candidate registered for this election yet\n");
+		return;
+	}
+
+	if(el->election_status == closed) {
+		printf("This election has already been closed\n");
 		return;
 	}
 	
@@ -225,7 +228,6 @@ PUBLIC  void vote(election el)
 	int candidate_number, ch;
 
 	printf("\nRegistration number\t|\tCandidate name\n");
-
 	for (p = el->top; p != NULL; p = p->next) {
 		if (!p->banned)
 			printf("\n%d.\t|\t%s\n", p->candidate_number, p->candidate_name);
@@ -249,6 +251,37 @@ PUBLIC  void vote(election el)
 	else
 		printf("Vote not registered\n");
 		
+}
+
+PUBLIC void showelection_profile(election el)
+{
+	el->num_candiates = num_cand(el);
+	
+	printf("\nelection name: %s\n"
+			"number of candidates registered: %d\n",
+					el->election_name, el->num_candiates);
+	
+	if(el->election_status)
+		printf("Election status: Opened\n");
+	else
+		printf("election status: Closed");
+}
+
+PUBLIC void close_election(election el)
+{
+	char ch;
+
+	printf("Are you sure you want to close this election ? (Y/N): ");
+	ch = getchar();
+	while(getchar() != '\n')
+		;
+	
+	if((toupper(ch)) == 'Y') {
+		el->election_status = closed;
+		printf("Election closed\n");
+		return;
+	}
+	printf("operation aborted\n");
 }
 
 PUBLIC void save(election el)
