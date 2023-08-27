@@ -33,7 +33,7 @@ PUBLIC int checkadminlogin(void)
             return 1;
         }
 
-    printf("\nlog in failed: wrong name or password\n");
+    printf("\nlogin failed: wrong name or password\n");
     return 0;
     
 }
