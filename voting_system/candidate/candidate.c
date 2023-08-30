@@ -63,6 +63,7 @@ PRIVATE struct cadidate *search(election el,
 		*prev_node = *cur_node, *cur_node = (*cur_node)->next)
 			;
 
+	/* Node not found */
 	if(!*cur_node) {
 		printf("Candidate with registration number %d, not found\n", candidate_num);
 		return NULL;
