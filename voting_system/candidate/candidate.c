@@ -24,28 +24,34 @@ struct election_type {
 	struct candidate *top;
 };
 
-/*functions*/
+/*functions defintion*/
 
+/**
+ * terminat: Prints a message to the error stream,
+ * 			 before terminating the program abroptely.
+ * 
+ * message- the message to be printed
+ */
 PRIVATE void terminate(const char *message)
 {
-	printf("\n%s\n", message);
+	fprintf(stderr, "\n%s\n", message);
 	exit(EXIT_FAILURE);
 }
 
-
-PUBLIC int read_word(char word[], int len)
-{
-	int pos = 0;
-	char ch;
-
-	while (((ch = getchar()) != '\n') && ch != EOF) {
-		if (pos < len)
-			word[pos++] = ch; 
-	}
-	word[pos] = '\0';
-	return pos;
-}
-
+/**
+ * search: searches for a candidate node, having a candidate
+ * 			number described by it's 4th arguement, and makes
+ * 			it's 2nd and 3rd arguement point to the the searched node
+ * 			and previous node respectively.
+ * 
+ * el- a pointer to the head of the list.
+ * *cur_node- A pointer to a pointer which points to the searched node.
+ * *prev_node- A pointer to a pointer which points to the node previous
+ * 				to the searched node.
+ * candidate_num- The candidate number of the searched candidate node.
+ * 
+ * return- Returns a NULL pointer if the node isn't found.
+*/
 PRIVATE struct candidate *search(election el,
 					struct candidate **cur_node,
 					struct candidate **prev_node,
@@ -63,6 +69,13 @@ PRIVATE struct candidate *search(election el,
 
 }
 
+/**
+ * num_cand: checks for the number of nodes currently in the list
+ * 
+ * el- A pointer to the haed of the list
+ * 
+ * return- Returns the number of nodes found.
+*/
 PRIVATE int num_cand(election el)
 {
 	int i = 0;
@@ -74,6 +87,19 @@ PRIVATE int num_cand(election el)
 	return i;	
 }
 
+PUBLIC int read_word(char word[], int len)
+{
+	int pos = 0;
+	char ch;
+
+	while (((ch = getchar()) != '\n') && ch != EOF) {
+		if (pos < len)
+			word[pos++] = ch; 
+	}
+	word[pos] = '\0';
+	return pos;
+}
+
 PUBLIC void print_profile(election el, int candidate_num)
 {
 
@@ -81,9 +107,10 @@ PUBLIC void print_profile(election el, int candidate_num)
 		printf("\nThere is no candidate registered for tis election yet\n");
 		return;
 	}
+	
 	struct candidate *cur, *prev;
 
-	if(!(cur = (search(el, &cur, &prev, candidate_num))))
+	if(!((search(el, &cur, &prev, candidate_num))))
 		return;
 	
 	printf("\n"
