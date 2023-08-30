@@ -7,6 +7,7 @@
 
 #define NAME_LEN 20
 
+
 int num_candidates = 0;
 
 struct candidate {
@@ -52,7 +53,7 @@ PRIVATE void terminate(const char *message)
  * 
  * return- Returns a NULL pointer if the node isn't found.
 */
-PRIVATE struct candidate *search(election el,
+PRIVATE struct cadidate *search(election el,
 					struct candidate **cur_node,
 					struct candidate **prev_node,
 					int candidate_num)
@@ -110,7 +111,7 @@ PUBLIC void print_profile(election el, int candidate_num)
 	
 	struct candidate *cur, *prev;
 
-	if(!((search(el, &cur, &prev, candidate_num))))
+	if(!(search(el, &cur, &prev, candidate_num)))
 		return;
 	
 	printf("\n"
