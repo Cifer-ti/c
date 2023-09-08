@@ -16,7 +16,7 @@ int main(void)
 {
 	int player = 1, i, choice, check;
 	int has_won = 0;
-	char mark;
+	char mrk;
 
 	do {
 		system("clear");
