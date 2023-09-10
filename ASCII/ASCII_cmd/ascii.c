@@ -8,13 +8,16 @@ char *options[] = {"--table", "--val", "--char", "--help"};
 
 int char_to_value(char ch);
 int value_to_char(int val);
-void help(char *prog_name);
+void error(char *prog_name);
+void help(void);
+void table(void);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
     int i, arg_index = -1;
 
     if(argc < 2)
-        help(argv[0]);
+        error(*argv);
 
     for(i = 0; options[i] != NULL; i++) {
         if(strcmp(argv[1], options[i]) == 0) {
@@ -24,32 +27,25 @@ int main(int argc, char *argv[]) {
     }
 
     if(options[i] == NULL) {
-        printf("Error: check arguements.\n");
-        help(argv[0]);
+        printf("Error: %s invalid arguements.\n", argv[1]);
+        error(*argv);
     }
 
     switch(arg_index) {
         case 0:
-            for (i = 0; i <= 127; i++) {
-                if (i <= 31)
-                    printf(" |%3d - np|", i);
-                else
-                    printf(" |%3d -  %c|", i, i);
-                if (i % 6 == 0)
-                printf("\n");
-            }
-            printf("\n");
+            table();
             break;
         
         case 1:
-            value_to_char(atoi(argv[2]));
+            value_to_char(atio(argv[2]));
+            break;
+
+        case 2:
+            char_to_value(atoi(argv[2]));
             break;
         
-        case 4:
-            printf("\nhelp page\n"
-                "Valid arguements:\n"
-                "--table\t print ASCII table\n"
-                "--help\t print this help\n");
+        case 3:
+            help();
             break;
         
         default:
@@ -60,33 +56,52 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+void table(void)
+{
+    int i;
+
+    for (i = 0; i <= 127; i++) {
+        if (i <= 31)
+            printf(" |%3d - np|", i);
+        else
+            printf(" |%3d -  %c|", i, i);
+        if (i % 6 == 0)
+            printf("\n");
+    }
+    printf("\n");
+
+}
+
 int char_to_value(char ch) 
 {
- 
-
-    printf("Enter charater to get ASCII value: ");
-    scanf(" %c", &ch);
-
     printf("character of %c - %d\n", ch, ch);
 }
 
 int value_to_char(int val) 
 {
-
-    if(!isdigit(val))
+    //printf("%d %d\n", val, isdigit(val));
+    if(isdigit(val) != 0)
         return -1;
 
     if (val >= 0 && val <= 31)
-        printf("characters with value of 0 - 32 are unprintable");
+        printf("characters with value of 0 - 32 are unprintable\n");
     else
         printf("character of %d - %c\n", val, val);
     
     return 0;
 }
 
-void help(char *prog_name)
+void help(void)
 {
-        printf("Usage: %s arguement.\n", *prog_name);
-        printf("%s --help for details\n", *prog_name);
+    printf("\nhelp page\n"
+                "Valid arguements:\n"
+                "--table\t print ASCII table\n"
+                "--help\t print this help\n");
+}
+
+void error(char *prog_name)
+{
+        printf("Usage: %s --option.\n", prog_name);
+        printf("%s --help for more details\n", prog_name);
         exit(EXIT_FAILURE);
 }
