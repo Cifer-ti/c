@@ -37,7 +37,14 @@ int main(int argc, char *argv[])
             break;
         
         case 1:
-            value_to_char(argv[2]);
+            if(argc != 3) {
+                printf("Error: no arguement to be converted\n");
+                error(*argv);
+            }
+            if(value_to_char(argv[2]) != 0) {
+                printf("Error: Arguement to be converted has to be an integer.\n");
+                exit(EXIT_FAILURE);
+            }
             break;
 
         case 2:
@@ -79,7 +86,7 @@ int char_to_value(char ch)
 
 int value_to_char(char *val) 
 {
-    int n;
+    int int_val;
     char *endptr;
 
     strtol(val, &endptr, 10);
@@ -87,16 +94,18 @@ int value_to_char(char *val)
     if(*endptr != '\0')
         return -1;
     
-    n = atoi(val);
+    int_val = atoi(val);
 
     //printf("%lu %d\n", val, isdigit(val));
    // if(isdigit(val) != 0)
        // return -1;
 
-    if (n >= 0 && n <= 31)
+    if (int_val >= 0 && int_val <= 31)
         printf("characters with value of 0 - 32 are unprintable\n");
+    else if(int_val > 127)
+        printf("value should be positive and less than 127\n");
     else
-        printf("character of %d - %c\n", n, n);
+        printf("character of %d - %c\n", int_val, int_val);
     
     return 0;
 }
