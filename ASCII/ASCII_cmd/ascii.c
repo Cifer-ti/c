@@ -7,7 +7,7 @@
 char *options[] = {"--table", "--val", "--char", "--help"};
 
 int char_to_value(char ch);
-int value_to_char(int val);
+int value_to_char(char *val);
 void error(char *prog_name);
 void help(void);
 void table(void);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
             break;
         
         case 1:
-            value_to_char(atio(argv[2]));
+            value_to_char(argv[2]);
             break;
 
         case 2:
@@ -77,16 +77,26 @@ int char_to_value(char ch)
     printf("character of %c - %d\n", ch, ch);
 }
 
-int value_to_char(int val) 
+int value_to_char(char *val) 
 {
-    //printf("%d %d\n", val, isdigit(val));
-    if(isdigit(val) != 0)
-        return -1;
+    int n;
+    char *endptr;
 
-    if (val >= 0 && val <= 31)
+    strtol(val, &endptr, 10);
+
+    if(*endptr != '\0')
+        return -1;
+    
+    n = atoi(val);
+
+    //printf("%lu %d\n", val, isdigit(val));
+   // if(isdigit(val) != 0)
+       // return -1;
+
+    if (n >= 0 && n <= 31)
         printf("characters with value of 0 - 32 are unprintable\n");
     else
-        printf("character of %d - %c\n", val, val);
+        printf("character of %d - %c\n", n, n);
     
     return 0;
 }
