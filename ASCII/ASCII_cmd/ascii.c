@@ -31,6 +31,11 @@ int main(int argc, char *argv[])
         error(*argv);
     }
 
+    if((arg_index == 1 || arg_index == 2) && argc != 3) {
+        printf("Error: no arguement to be converted\n");
+        error(*argv);
+    }
+
     switch(arg_index) {
         case 0:
             table();
@@ -95,10 +100,6 @@ int value_to_char(char *val)
         return -1;
     
     int_val = atoi(val);
-
-    //printf("%lu %d\n", val, isdigit(val));
-   // if(isdigit(val) != 0)
-       // return -1;
 
     if (int_val >= 0 && int_val <= 31)
         printf("characters with value of 0 - 32 are unprintable\n");
