@@ -1,146 +1,59 @@
-#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <stdio.h>
 
-/*defintion of extenal variables*/
-int board_status[9] = {0};
-char square[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+#define PLAYER_X '+'
+#define PLAYER_O '-'
 
-/*function prototypes*/
-void error_prompt(void);
-void board(void);
-int checkchoice(int Choice);
-int checkwin(void);
+struct game_node {
+	int val;
+	int turn;
+	char pos[3][3];
+	struct game_node *cptr;
+	struct game_node *sptr;
+};
 
-int main(void)
+struct game_node *get_node(void)
 {
-	int player = 1, i, choice, check;
-	int has_won = 0;
-	char mark;
+	struct game_node *new_node;
 
-	do {
-		system("clear");
-		board();
-		player = (player % 2) ? 1 : 2;
-
-		printf("player %d enter the number of a square: ", player);
-		/*check if choice is a number*/
-		if (scanf("%d", &choice) != 1) {
-			getchar();
-			choice = -1;
-		}
-
-		
-		if (choice >= 1 && choice <= 9) {
-
-			mark = (player == 1) ? 'X' : 'O';
-
-			check = checkchoice(choice);
-
-			if ( check > 0) {
-				printf("\nfine play\n");
-				square[choice - 1] = mark;
-				has_won = checkwin();
-				
-				if (has_won == 0) {
-					board();
-					printf("Draw game: No more empty square left\n");
-					return 0;
-				}
-				if (has_won > 0) {
-					board();
-					printf("Player %d win\n", player);
-					return 0;
-				}
-				player++;
-			}
-			else
-				printf("Illegal move\n");
-		}
-		else
-			error_prompt();	
-	} while (1);
-}
-
-/**
- * erro_prompt: Prompts an error message
- */
-void error_prompt(void)
-{
-	printf("\nchoice has to be a number between 1-9\ntry again\n\n");
-}
-
-/**
- * board: prints the current state of the game board
- */
-void board(void)
-{
-	int i;
-	
-	printf("\n");
-	for (i = 0; i <= 8; i++) {
-		printf("| %c |", square[i]);
-		if (( (i + 1) % 3 ) == 0)
-			printf("\n");
+	if( (new_node = malloc(sizeof(struct game_node))) == NULL) {
+		fprintf(stderr, "Error game node could not be created\n");
+		exit(EXIT_FAILURE);
 	}
-	printf("\n");
+
+	return new_node;
 }
 
-/**
- * checkchoice: checks if the number the player entered,
- * 		was already entered (checks if the move is legal).
- * 
- * returns an integer value of 1 if the move is legal else,
- * -1 is returned.
- */
-int checkchoice(int Choice)
+struct game_node *make_tree(char *baord[], int lev)
 {
-	if (board_status[Choice - 1])
-		return -1;
+	struct game_node *root;
 
-	board_status[Choice - 1] = 1;
-	return 1;
+	/* Set up root node of tree */
+	root = get_node();
+	root->cptr = NULL;
+	root->sptr = NULL;
+	root->turn = PLAYER_X;
+	strncpy(root->pos, baord, sizeof(root->pos) - 1);
+
+	/* build rest of game tree */
+	game_tree(root, lev, 0);
+
+	return root;
+	
 }
 
-/**
- * checkwin: checks the board to see if the game
- * 	     is a win a draw or should continue.
- *
- * return - 1 if a winning combination is satified,
- * 	    0 if all squares are occupied but no win (a draw)
- *          -1 if non of the above is satisfied
- */
-int checkwin()
+void game_tree(struct gnode *root, int max_level, int cur_level)
 {
-    if (square[0] == square[1] && square[1] == square[2])
-        return 1;
-        
-    else if (square[3] == square[4] && square[4] == square[5])
-        return 1;
-        
-    else if (square[6] == square[7] && square[7] == square[8])
-        return 1;
-        
-    else if (square[0] == square[3] && square[3] == square[6])
-        return 1;
-        
-    else if (square[1] == square[4] && square[4] == square[7])
-        return 1;
-        
-    else if (square[2] == square[5] && square[5] == square[8])
-        return 1;
-        
-    else if (square[0] == square[4] && square[4] == square[8])
-        return 1;
-        
-    else if (square[2] == square[4] && square[4] == square[6])
-        return 1;
-        
-    else if (square[0] != '1' && square[1] != '2' && square[2] != '3' &&
-        square[3] != '4' && square[4] != '5' && square[5] != '6' && square[6] 
-        != '7' && square[7] != '8' && square[8] != '9')
+	struct gnode *tmp;
 
-        return 0;
-    else
-        return  - 1;
+	if(cur_level == max_level)
+		return;
+	
+	//gen_pos(root);
+
+	for(tmp = root->cptr; tmp != NULL; tmp = tmp->sptr) {
+		tmp->turn = -root->turn;
+		game_tree(tmp, max_level; cur_level + 1);
+	}
 }
