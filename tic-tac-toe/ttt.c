@@ -43,9 +43,9 @@ struct game_node *make_tree(char *baord[], int lev)
 	
 }
 
-void game_tree(struct gnode *root, int max_level, int cur_level)
+void game_tree(struct game_node *root, int max_level, int cur_level)
 {
-	struct gnode *tmp;
+	struct game_node *tmp;
 
 	if(cur_level == max_level)
 		return;
@@ -56,4 +56,30 @@ void game_tree(struct gnode *root, int max_level, int cur_level)
 		tmp->turn = -root->turn;
 		game_tree(tmp, max_level; cur_level + 1);
 	}
+}
+
+struct game_node *best_move(char who, struct game_node *root)
+{
+	int bval, tval;
+	struct game_node *tmp, *best, *tbest;
+
+	if(root->cptr == NULL) {
+		//root->val = board_eval(root->pos, who);
+		//return root;
+	}
+
+	tmp = root->cptr;
+	best = best_move(who, tmp);
+	bval = (best->val) * (tmp->turn);
+
+	for(tmp = tmp->sptr; tmp != NULL; tmp = tmp->sptr) {
+		tbest = best_move(who, tmp);
+		tval = (tbest->val) * (tbest->turn);
+		if(tval > bval) {
+			bval = tval;
+			best = tbest;
+		}
+	}
+
+	return best;
 }
