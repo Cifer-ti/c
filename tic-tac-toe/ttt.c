@@ -50,7 +50,7 @@ void game_tree(struct game_node *root, int max_level, int cur_level)
 	if(cur_level == max_level)
 		return;
 	
-	//gen_pos(root);
+	//gen_pos(root); /* function still to be implemented */
 
 	for(tmp = root->cptr; tmp != NULL; tmp = tmp->sptr) {
 		tmp->turn = -root->turn;
@@ -64,7 +64,7 @@ struct game_node *best_move(char who, struct game_node *root)
 	struct game_node *tmp, *best, *tbest;
 
 	if(root->cptr == NULL) {
-		//root->val = board_eval(root->pos, who);
+		//root->val = board_eval(root->pos, who); /* function still to be implemented */
 		//return root;
 	}
 
