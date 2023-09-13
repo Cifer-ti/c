@@ -42,3 +42,18 @@ struct game_node *make_tree(char *baord[], int lev)
 	return root;
 	
 }
+
+void game_tree(struct gnode *root, int max_level, int cur_level)
+{
+	struct gnode *tmp;
+
+	if(cur_level == max_level)
+		return;
+	
+	//gen_pos(root);
+
+	for(tmp = root->cptr; tmp != NULL; tmp = tmp->sptr) {
+		tmp->turn = -root->turn;
+		game_tree(tmp, max_level; cur_level + 1);
+	}
+}
