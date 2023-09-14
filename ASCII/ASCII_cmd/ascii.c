@@ -6,7 +6,7 @@
 
 char *options[] = {"--table", "--val", "--char", "--help"};
 
-int char_to_value(char ch);
+int char_to_value(char *str_ch);
 int value_to_char(char *val);
 void error(char *prog_name);
 void help(void);
@@ -42,10 +42,6 @@ int main(int argc, char *argv[])
             break;
         
         case 1:
-            if(argc != 3) {
-                printf("Error: no arguement to be converted\n");
-                error(*argv);
-            }
             if(value_to_char(argv[2]) != 0) {
                 printf("Error: Arguement to be converted has to be an integer.\n");
                 exit(EXIT_FAILURE);
@@ -53,7 +49,7 @@ int main(int argc, char *argv[])
             break;
 
         case 2:
-            char_to_value(atoi(argv[2]));
+            char_to_value(argv[2]);
             break;
         
         case 3:
@@ -84,9 +80,12 @@ void table(void)
 
 }
 
-int char_to_value(char ch) 
+int char_to_value(char *str_ch) 
 {
-    printf("character of %c - %d\n", ch, ch);
+    char char_ch;
+
+    sscanf(str_ch, "%c", &char_ch);
+    printf("character of %c - %d\n", char_ch, char_ch);
 }
 
 int value_to_char(char *val) 
