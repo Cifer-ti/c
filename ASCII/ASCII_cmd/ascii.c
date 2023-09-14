@@ -9,7 +9,7 @@ char *options[] = {"--table", "--val", "--char", "--help"};
 int char_to_value(char *str_ch);
 int value_to_char(char *val);
 void error(char *prog_name);
-void help(void);
+void help(char *prog_name);
 void table(void);
 
 int main(int argc, char *argv[]) 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
             break;
         
         case 3:
-            help();
+            help(*argv);
             break;
         
         default:
@@ -110,12 +110,14 @@ int value_to_char(char *val)
     return 0;
 }
 
-void help(void)
+void help(char *prog_name)
 {
-    printf("\nhelp page\n"
-                "Valid arguements:\n"
-                "--table\t print ASCII table\n"
-                "--help\t print this help\n");
+    printf("\n######### HELP PAGE ############\n\n"
+                "usage:\n"
+                "%s --table [----print ASCII table-----------------------------------------------------]\n"
+                "   \t--val   [-----print the character with ASCII value corresponding to 2nd arguement-----]\n"
+                "   \t--char  [----convert a character to is ASCII value------------------------------------]\n"
+                "   \t--help  [----print this help-----------------------------------------------------------]\n", prog_name);
 }
 
 void error(char *prog_name)
