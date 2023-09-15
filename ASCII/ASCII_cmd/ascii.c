@@ -14,36 +14,36 @@ void table(void);
 
 int main(int argc, char *argv[]) 
 {
-    int i, arg_index = -1;
+    int i, option_index = -1;
 
     if(argc < 2)
         error(*argv);
 
     for(i = 0; options[i] != NULL; i++) {
         if(strcmp(argv[1], options[i]) == 0) {
-            arg_index = i;
+            option_index = i;
             break;
         }
     }
 
     if(options[i] == NULL) {
-        printf("Error: %s invalid arguements.\n", argv[1]);
+        printf("Error: %s invalid arguement.\n", argv[1]);
         error(*argv);
     }
 
-    if((arg_index == 1 || arg_index == 2) && argc != 3) {
+    if((option_index == 1 || option_index == 2) && argc != 3) {
         printf("Error: no arguement to be converted\n");
         error(*argv);
     }
 
-    switch(arg_index) {
+    switch(option_index) {
         case 0:
             table();
             break;
         
         case 1:
             if(value_to_char(argv[2]) != 0) {
-                printf("Error: Arguement to be converted has to be an integer.\n");
+                printf("Error: Arguement to be converted has to be an integer: (%s) not valid.\n", argv[2]);
                 exit(EXIT_FAILURE);
             }
             break;
@@ -56,9 +56,6 @@ int main(int argc, char *argv[])
             help(*argv);
             break;
         
-        default:
-            printf("Argument %s not found\n %s --help for help\n", argv[1], *argv);
-            return -1;
     }
 
     return 0;
@@ -102,8 +99,8 @@ int value_to_char(char *val)
 
     if (int_val >= 0 && int_val <= 31)
         printf("characters with value of 0 - 32 are unprintable\n");
-    else if(int_val > 127)
-        printf("value should be positive and less than 127\n");
+    else if(int_val > 127 || int_val < 0)
+        printf("value should be positive and less than 127: (%d) not valid\n", int_val);
     else
         printf("character of %d - %c\n", int_val, int_val);
     
@@ -114,10 +111,11 @@ void help(char *prog_name)
 {
     printf("\n######### HELP PAGE ############\n\n"
                 "usage:\n"
-                "%s --table [----print ASCII table-----------------------------------------------------]\n"
-                "   \t--val   [-----print the character with ASCII value corresponding to 2nd arguement-----]\n"
-                "   \t--char  [----convert a character to is ASCII value------------------------------------]\n"
-                "   \t--help  [----print this help-----------------------------------------------------------]\n", prog_name);
+                "%s --table            [----print ASCII table-----------------------------------------------------]\n"
+                "   \t--val  <value>     [----print the character with ASCII value corresponding to 2nd arguement-----]\n"
+                "   \t--char <character> [----print the ASCII value of it's 2nd arguement------------------------------------]\n"
+                "   \t--help             [----print this help page----------------------------------------------------------]\n"
+                "\n Note: If a Value prints 'np' as equivalent ASCII character, it means the ASCII charater is non-printing.\n", prog_name);
 }
 
 void error(char *prog_name)
