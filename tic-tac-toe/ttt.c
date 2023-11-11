@@ -83,3 +83,16 @@ struct game_node *best_move(char who, struct game_node *root)
 
 	return best;
 }
+
+int move(char *board[], char who, int level)
+{
+	int val;
+	struct game_node *root;
+	struct game_node *best;
+
+	root = make_tree( board, level) ;
+	best = best_move( who, root);
+	move_board(board, best->gos);
+	val = best->Val;
+	free_all(root) ;
+}
