@@ -1,98 +1,154 @@
-#include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#define PLAYER_X '+'
-#define PLAYER_O '-'
 
-struct game_node {
-	int val;
-	int turn;
-	char pos[3][3];
-	struct game_node *cptr;
-	struct game_node *sptr;
-};
+char square[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-struct game_node *get_node(void)
+int checkwin();
+void board();
+
+int main()
 {
-	struct game_node *new_node;
+    int player = 1, i, choice;
 
-	if( (new_node = malloc(sizeof(struct game_node))) == NULL) {
-		fprintf(stderr, "Error game node could not be created\n");
-		exit(EXIT_FAILURE);
-	}
+    char mark;
+    do
+    {
+        board();
+        player = (player % 2) ? 1 : 2;
 
-	return new_node;
+        printf("Player %d, enter a number:  ", player);
+				if(scanf("%d", &choice) != 1) {
+						while(getchar() != '\n') // consume bad input
+								;
+						printf("Game is on going\n");
+						printf("Do you want to exit program ? (Y/N) ");
+						choice = getchar();
+				}
+
+        mark = (player == 1) ? 'X' : 'O';
+		
+				
+				if(choice == 'Y' || choice == 'y')
+						exit(EXIT_SUCCESS);
+        if(choice == 1 && square[1] == '1')
+            square[1] = mark;
+            
+        else if(choice == 2 && square[2] == '2')
+            square[2] = mark;
+            
+        else if(choice == 3 && square[3] == '3')
+            square[3] = mark;
+            
+        else if(choice == 4 && square[4] == '4')
+            square[4] = mark;
+            
+        else if(choice == 5 && square[5] == '5')
+            square[5] = mark;
+            
+        else if(choice == 6 && square[6] == '6')
+            square[6] = mark;
+            
+        else if(choice == 7 && square[7] == '7')
+            square[7] = mark;
+            
+        else if(choice == 8 && square[8] == '8')
+            square[8] = mark;
+            
+        else if(choice == 9 && square[9] == '9')
+            square[9] = mark;
+            
+        else
+        {
+            printf("\t*** INVALID MOVE ! *** ");
+
+            player--;
+            getchar();
+        }
+        i = checkwin();
+
+        player++;
+    }while (i ==  - 1);
+    
+    board();
+    
+    if(i == 1)
+        printf("==>\aPlayer %d win \n", --player);
+    else if(i == 0)
+        printf("==>\aGame draw\n");
+
+    getchar();
+
+    return 0;
 }
 
-struct game_node *make_tree(char *baord[], int lev)
+
+/**
+ * checkwin: Returns the game status.
+ *
+ * return: Returns 1 if there's a winner. -1 for game to continue
+ *					and 0 for a draw.
+ */
+int checkwin()
 {
-	struct game_node *root;
+    if (square[1] == square[2] && square[2] == square[3])
+        return 1;
+        
+    else if (square[4] == square[5] && square[5] == square[6])
+        return 1;
+        
+    else if (square[7] == square[8] && square[8] == square[9])
+        return 1;
+        
+    else if (square[1] == square[4] && square[4] == square[7])
+        return 1;
+        
+    else if (square[2] == square[5] && square[5] == square[8])
+        return 1;
+        
+    else if (square[3] == square[6] && square[6] == square[9])
+        return 1;
+        
+    else if (square[1] == square[5] && square[5] == square[9])
+        return 1;
+        
+    else if (square[3] == square[5] && square[5] == square[7])
+        return 1;
+        
+    else if (square[1] != '1' && square[2] != '2' && square[3] != '3' &&
+        square[4] != '4' && square[5] != '5' && square[6] != '6' && square[7] 
+        != '7' && square[8] != '8' && square[9] != '9')
 
-	/* Set up root node of tree */
-	root = get_node();
-	root->cptr = NULL;
-	root->sptr = NULL;
-	root->turn = PLAYER_X;
-	strncpy(root->pos, baord, sizeof(root->pos) - 1);
-
-	/* build rest of game tree */
-	game_tree(root, lev, 0);
-
-	return root;
-	
+        return 0;
+    else
+        return  - 1;
 }
 
-void game_tree(struct game_node *root, int max_level, int cur_level)
+
+/**
+ * board: Draw the tic tac toe playing board.
+ */
+
+void board()
 {
-	struct game_node *tmp;
+    system("clear");
+    printf("\n\n\tTic Tac Toe\n\n");
 
-	if(cur_level == max_level)
-		return;
-	
-	//gen_pos(root); /* function still to be implemented */
+    printf("Player 1 (X)  -  Player 2 (O)\n\n\n");
 
-	for(tmp = root->cptr; tmp != NULL; tmp = tmp->sptr) {
-		tmp->turn = -root->turn;
-		game_tree(tmp, max_level; cur_level + 1);
-	}
-}
 
-struct game_node *best_move(char who, struct game_node *root)
-{
-	int bval, tval;
-	struct game_node *tmp, *best, *tbest;
+    printf("     |     |     \n");
+    printf("  %c  |  %c  |  %c \n", square[1], square[2], square[3]);
 
-	if(root->cptr == NULL) {
-		//root->val = board_eval(root->pos, who); /* function still to be implemented */
-		//return root;
-	}
+    printf("_____|_____|_____\n");
+    printf("     |     |     \n");
 
-	tmp = root->cptr;
-	best = best_move(who, tmp);
-	bval = (best->val) * (tmp->turn);
+    printf("  %c  |  %c  |  %c \n", square[4], square[5], square[6]);
 
-	for(tmp = tmp->sptr; tmp != NULL; tmp = tmp->sptr) {
-		tbest = best_move(who, tmp);
-		tval = (tbest->val) * (tbest->turn);
-		if(tval > bval) {
-			bval = tval;
-			best = tbest;
-		}
-	}
+    printf("_____|_____|_____\n");
+    printf("     |     |     \n");
 
-	return best;
-}
+    printf("  %c  |  %c  |  %c \n", square[7], square[8], square[9]);
 
-int move(char *board[], char who, int level)
-{
-	int val;
-	struct game_node *root;
-	struct game_node *best;
-
-	root = make_tree( board, level) ;
-	best = best_move( who, root);
-	move_board(board, best->gos);
-	val = best->Val;
-	free_all(root) ;
+    printf("     |     |     \n\n");
 }
